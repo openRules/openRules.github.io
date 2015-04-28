@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GO-FAR Score to Predict Neurologically Intact Survival After In-Hospital Cardiopulmonary Resuscitation</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script>
+function getParameterByName(name) {
+name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+results = regex.exec(location.search);
+return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+var site = getParameterByName('site').toLowerCase();
+var bridge = getParameterByName('bridge').toLowerCase();
+var bleedingrisk = getParameterByName('bleedingrisk').toLowerCase();
+var dental = getParameterByName('dental').toLowerCase();
+var holdno = getParameterByName('holdno').toLowerCase();
+var hold5 = getParameterByName('hold5').toLowerCase();
+var hold6 = getParameterByName('hold6').toLowerCase();
+$(document).ready(function(){
+$(function() {
+$("#datepicker").datepicker({
+onSelect: function (dateText, inst) {
+makecalendar()
+}
+});
+//Site defaults
+if (site == "heartland"){
+	//$("#INRdaybefore_yes").attr("checked", "checked");
+	$("#bridgeno").attr("checked", "checked");
+	$("#bleedingrisk_group").hide();
+	}
+//Pass selection from algorithm
+//Note that these will override site defaults
+if (bridge == "0"){
+	$("#bridgeno").attr("checked", "checked");
+	$("#bleedingrisk_group").hide();
+	}
+if (bridge == "1"){
+	$("#bridgeqd").attr("checked", "checked");
+	}
+if (bridge == "2"){
+	$("#bridgebid").attr("checked", "checked");
+	}
+if (bleedingrisk == "2"){
+	$("#bleedingrisk_group").show()
+	$("#bleedingrisk_high").attr("checked", "checked");
+	}
+if (bleedingrisk == "0" || bleedingrisk == "1"){
+	$("#bleedingrisk_other").attr("checked", "checked");
+	}
+if (dental == "1"){
+	$("#tranexamic_acid").attr("checked", "checked");
+	}
+if (hold6 == "1"){
+	$("#hold6").attr("checked", "checked");
+	}
+if (holdno == "1"){
+	$("#holdno").attr("checked", "checked");
+	}
+//Event handlers
+$("#bridgeqd").click(function(){
+//$("#holdno").attr("checked",false); //Cleaning in case left on
+$("#bleedingrisk_group").show();
+makecalendar()
+});
+$("#bridgebid").click(function(){
+//$("#holdno").attr("checked",false); //Cleaning in case left on
+$("#bleedingrisk_group").show();
+makecalendar()
+});
+$("#bridgeno").click(function(){
+$("#bleedingrisk_group").hide();
+makecalendar()
+});
+$("#holdno").click(function(){
+$("#bridgeno").attr("checked", true); //Prevent harm
+makecalendar()
+});
+$("#hold5").click(function(){
+makecalendar()
+});
+$("#hold6").click(function(){
+makecalendar()
+});
+$("#bleedingrisk_high").click(function(){
+makecalendar()
+});
+$("#bleedingrisk_other").click(function(){
+makecalendar()
+});
+$("#tranexamic_acid").click(function(){
+makecalendar()
+});
+$("#hold3").click(function(){
+makecalendar()
+});
+$("#INRdaybefore_yes").click(function(){
+makecalendar()
+});
+})
+});
+function makecalendar(){
+//Reset any color changes
+$("#bleedingrisk_legend").css("color","black")
+$("#bridgeno_label").css("color","black")
+$("#bridging_legend").css("color","black")
+//Clear calendar
+for ( var i = 1; i < 22; i++ ) {
+$("#d" + i).html("&nbsp;");
+$("#a" + i).val("");
+}
+//Start populating calendar
+var dateOfProcedure = $("#datepicker").datepicker('getDate');
+var dateLabel = new Date();
+var dayLabel;
+var dayOfMonth = dateOfProcedure.getDate();
+var dayOfProcedure = dateOfProcedure.getUTCDay() + 8;
+$("#a" + eval(dayOfProcedure - 1)).val("\n\n\n\n") //Needed for replacements
+if ($("#bridgeno").is(':checked')){
+	//no bridge
+	if (!$("#holdno").is(':checked')){
+		//Hold warfarin without bridge
+		if ($("#hold3").is(':checked')){
+			//Dental
+			$("#a" + eval(dayOfProcedure - 3)).val("Last warfarin");
+			}
+		else if ($("#hold6").is(':checked')){
+			//This would make no sense
+			$("#a" + eval(dayOfProcedure - 6)).val("Last warfarin");
+			}
+		else{
+			//Low TE risk so hold warfarin without bridge
+			$("#a" + eval(dayOfProcedure - 5)).val("Last warfarin");
+			}
+		$("#a" + eval(dayOfProcedure + 3)).val("\n\n\n\n");
+		$("#a" + eval(dayOfProcedure + 3)).val($("#a" + eval(dayOfProcedure + 3)).val().replace("\n\n\n\n","\n\nINR check\n\n"));
+		}
+	else{
+		//Neither hold warfarin nor bridge
+		//Must be minor dental, skin, eye
+		}
+	}
+else{
+	//Bridge
+	if ($("#holdno").is(':checked')){
+		//alert('Warning: you seem to be trying to give both warfarin and LMWH?\n\nHint: select no bridge before clicking this button.');
+		//No hint
+		alert('Warning: you seem to be trying to give both warfarin and LMWH?');
+		$("#bridgeno").attr("checked", true); //Prevent harm
+		return;
+		//$("#holdno").attr("checked", true);
+		}
+	//Bridge QD or BID
+	if ($("#bridgeqd").is(':checked')){
+		//Bridge QD
+		//When to resume based on bleeding risk?
+		if ($("#bleedingrisk_high").is(':checked')){
+			$("#a" + eval(dayOfProcedure + 2)).val("If ok with surgeon:\nInject in A.M.\n\n\n\n");//Recommendation 2012 - 4.4
+			}
+		else if ($("#bleedingrisk_other").is(':checked')){
+			$("#a" + eval(dayOfProcedure + 1)).val("If ok with surgeon:\nInject in A.M.\n\n\n\n");//Recommendation 2012 - 4.4
+			$("#a" + eval(dayOfProcedure + 2)).val("\n\nInject in A.M.\n\n\n\n");
+			}
+	else{
+		//Warning
+		//$("#bridging_legend").css("color","red")
+		$("#bleedingrisk_legend").css("color","red");
+		return;
+		}
+	if ($("#hold6").is(':checked')){
+	$("#a" + eval(dayOfProcedure - 4)).val("\n\nInject in A.M.\n\n\n\n");
+	}
+	$("#a" + eval(dayOfProcedure - 3)).val("\n\nInject in A.M.\n\n\n\n");
+	$("#a" + eval(dayOfProcedure - 2)).val("\n\nInject in A.M.\n\n\n\n");
+	$("#a" + eval(dayOfProcedure - 1)).val("\n\nInject 1/2 dose in A.M.\n\n\n\n");
+	$("#a" + eval(dayOfProcedure )).val("\n\nInject 1/2 dose in A.M.\n\n\n\n");
+	$("#a" + eval(dayOfProcedure + 3)).val("\n\nInject in A.M.\n\n\n\n");
+	}
+	if ($("#bridgebid").is(':checked')){
+	//Bridge BID
+	//When to resume based on bleeding risk?
+	if ($("#bleedingrisk_high").is(':checked')){
+	$("#a" + eval(dayOfProcedure + 2)).val("If ok with surgeon:\nInject in A.M.\n\n\n\nInject in P.M.");//Recommendation 2012 - 4.4
+	}
+	else if ($("#bleedingrisk_other").is(':checked')){
+	$("#a" + eval(dayOfProcedure + 1)).val("If ok with surgeon:\nInject in A.M.\n\n\n\nInject in P.M.");//Recommendation 2012 - 4.4
+	$("#a" + eval(dayOfProcedure + 2)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
+	}
+	else{
+	//Warning
+	//$("#bridging_legend").css("color","red")
+	$("#bleedingrisk_legend").css("color","red")
+	return;
+	}
+	if ($("#hold6").is(':checked')){
+	$("#a" + eval(dayOfProcedure - 4)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
+	}
+	$("#a" + eval(dayOfProcedure - 3)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
+	$("#a" + eval(dayOfProcedure - 2)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
+	$("#a" + eval(dayOfProcedure - 1)).val("\n\nInject in A.M.\n\n\n\n"); //Recommendation 2012 - 4.3
+	$("#a" + eval(dayOfProcedure + 3)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
+	}
+	//When to stop warfarin?
+	if ($("#hold3").is(':checked')){
+	//Stop 3 days before
+	$("#a" + eval(dayOfProcedure - 3)).val("Last warfarin");
+	}
+	else if ($("#hold6").is(':checked')){
+	//Stop 6 days before
+	$("#a" + eval(dayOfProcedure - 6)).val("\n\nLast warfarin\n\n\n\n");
+	}
+	else{
+	//Stop 5 days before
+	$("#a" + eval(dayOfProcedure - 5)).val("\n\nLast warfarin\n\n\n\n");
+	}
+	//Wrap up
+	$("#a" + eval(dayOfProcedure + 3)).val($("#a" + eval(dayOfProcedure + 3)).val().replace("\n\n\n\n","\n\nINR check\n\n"));
+	$("#a" + eval(dayOfProcedure + 4)).val("\n\nContinue injections until INR is therapeutic.\n\n");
+	//End of instructions for bridging
+	}
+$("#a" + eval(dayOfProcedure + 0)).val("If ok with surgeon:\n\n\n\nStart warfarin in P.M."); //Recommendation 2012 - 2.2
+//INR check before procedure
+if ($("#INRdaybefore_yes").is(':checked')){
+$("#a" + eval(dayOfProcedure - 1)).val($("#a" + eval(dayOfProcedure - 1)).val().replace("\n\n\n\n","\n\nINR check\n\n"));
+}
+for ( var i = -14; i < 14; i++ ) {
+dateLabel.setDate(dateOfProcedure.getDate() + i);
+dayLabel = dateLabel.getDate();
+$("#d" + eval(dayOfProcedure + i)).html(dayLabel);
+}
+$("#pt_instructions").html("");
+if ($("#tranexamic_acid").is(':checked'))
+{
+$("#pt_instructions").html("<h4>The healthcare provider performing your procedure may use an oral rinse to decrease bleeding</h4><span style=\"font-weight:bold\"><a href=\"http://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6e89a7d9-4da4-42aa-b7f8-c602c24eefe5\">Tranexamic acid</a> (hard to find)</span><ul><li>It is given as one teaspoon (5 ml) oral rinse, 5 to 10 min before the dental procedure and 3 to 4 times daily for 1 to 2 days after the procedure. </li><li>Hold 10 mL in mouth and rinse for 2 minutes then spit out. </li><li>Do not eat or drink for 1 hour after using oral rinse. <l/i><li>Minor bleeding (or oozing from gingival mucosa) may occur. Continue tranexamic acid use and apply local pressure to stop such bleeding.</li></ul><span style=\"font-weight:bold\">Easier to find is <a href=\"http://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2238c70f-b0b5-4755-896b-45b28777b217&\">epsilon-aminocaproic acid</a> (Amicar solution)<sup>3</sup>.</span><ul><li>Mouthwashes are gently performed with 10 mL (two teaspoons or 2.5 grams) for 2 minutes just before the dental procedure and every 1 to 2 hours following the procedure for about one day <!--6 hours for 2 days--> (references 3, 4 and <a href='http://www.clotcare.com/faq_amicarsolution.aspx'>ClotCare</a>).</li></ul>");
+}
+$("#d" + eval(dayOfProcedure)).html("<span style=\"color:red;float:left\">*Procedure*</span><span style=\"color:red;float:right;\">" + dayOfMonth + "</span>");
+}
+</script>
+<style>
+.wrapper
+{
+width: 950px;
+margin-top: 0px;
+margin-right: auto;
+margin-bottom: 0px;
+margin-left: auto;
+}
+.weekend
+{
+background-color:#C0C0C0
+}
+.label
+{
+text-align:right;
+font-weight:bold;
+font-size:16px;
+}
+hr
+{
+opacity:0;
+margin-top: 0em;
+margin-bottom: 0em;
+border-width: 0px;
+clear: both;
+}
+textarea
+{
+width:120px;
+height:125px;
+overflow:auto;
+resize:yes;
+}
+@media print {
+.instructions {
+display:none;
+}
+spacer{
+display:block;
+}
+.weekend
+{
+background-color:#C0C0C0;
+box-shadow: inset 0 0 0 1000px #C0C0C0;
+-webkit-print-color-adjust: exact;
+print-color-adjust: exact;
+}
+}
+@media screen {
+.spacer{
+display:none;
+}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+<script>
+if (site.length>0)
+{
+document.write("<img src=\"/images/sites/" + site + ".png\" style=\"display: block;margin-left: auto; margin-right: auto;\" />")
+}
+</script>
+<h2>GO-FAR Score to Predict Neurologically Intact Survival After In-Hospital Cardiopulmonary Resuscitation</h2>
+<div style="background-color:#E4E4E4; width:850px;padding:1px 5px 1px 5px" class="instructions">
+<p>Health care staff (these instructions in light gray will not be printed):</p>
+<fieldset style="border: 3px solid #6DC6E7; background-color:#E4E4E4;width:825px;" id="hold_group">
+<legend id="var1_legend">Acute stroke?</legend>
+<input type="radio" name="var1" id="var1y" checked /><label for="var1y">Yes</label>&nbsp;
+<input type="radio" name="var1" id="var1n"/><label for="var1n">No</label>&nbsp;
+</fieldset>
+<legend id="var2_legend">Hepatic insufficiency?</legend>
+<input type="radio" name="var2" id="var2y" checked /><label for="var2y">Yes</label>&nbsp;
+<input type="radio" name="var2" id="var2n"/><label for="var2n">No</label>&nbsp;
+</fieldset>
+</div>
+
+<!-- Start of table -->
+<trable>
+<tr><th colspan="2">Cardiopulmonary Resuscitation facts
+</th></tr>
+<tr>
+<th>
+What is Cardiopulmonary Resuscitation for?
+</th>
+<td>
+Find prostate cancer at early stage and before it spreads beyond the prostate
+</td>
+</tr>
+<tr>
+<th>
+Who should consider Cardiopulmonary Resuscitation?
+</th>
+<td>
+Men aged 50 to 69 years
+Earlier (45 years) in men who are at increased risk for prostate cancer (African American race and a first-degree relative diagnosed with prostate cancer)
+</td>
+</tr>
+<tr>
+<th>
+Who should NOT undergo Cardiopulmonary Resuscitation?
+</th>
+<td>
+Men older than 70 years or with life expectancy of less than 10 years. Also, if you are concerned that you would be uncomfortable knowing that you have cancer and not treating it, screening may not be for you
+</td>
+</tr>
+<tr>
+<th>
+Who recommends Cardiopulmonary Resuscitation?
+</th>
+<td>
+The American College of Physicians recommends screening (see reference 1). The USPSTF does not recommend screening (see reference 2)
+</td>
+</tr>
+<tr>
+<th>
+Other things to consider doing
+</th>
+<td>
+Do not treat a cancer that is found but does not have signs of aggression
+</td>
+</tr>
+</tbody></table>
+
+<table>
+<tbody><tr><th colspan="3">
+Cardiopulmonary Resuscitation studies findings box (see reference 2, 3 and 4)<br>
+</th></tr>
+<tr>
+<th>
+What difference did Cardiopulmonary Resuscitation make?
+</th>
+<th>
+Men who received the test
+</th>
+<th>
+Men who did not receive the test
+</th>
+</tr>
+<tr>
+<td>
+<b>Did the test help?</b><br>Less men died of prostate cancer; however studies disagree on how many less men.<br>• According to the ERSPC trial, 1 death was prevented among 1000 men screened for 9 years (reference 3)<br>• According to the Göteborg trial, 1 death was prevented among 300 men screened for 14 years (reference 4)
+</td>
+<td align="center">
+<br><br><br><b>0.3%<br><br>0.5%</b><br><br>
+</td>
+<td align="center">
+<br><br><br><b>0.4%<br><br>0.9%</b><br><br>
+</td>
+</tr>
+<tr>
+<td>
+<b>Did Cardiopulmonary Resuscitation cause harm?</b><br>Over-diagnosis (Detection of cancer that is not destined to cause mortality and morbidity)<br>If you have a biopsy:<br>•  Impotence, Pain, Infection<br>If you have surgery:<br>• Incontinence (loss of urine)
+</td>
+<td align="center">
+<br><br><br><b>11%<br><br>2%</b><br><br>
+</td>
+<td align="center">
+<br><br><br><b>0%<br><br>0%</b><br><br>
+</td>
+</tr>
+</tbody></table>
+
+<p>How long has the PSA test been in use? Since 1990
+</p>
+<!-- End of table -->
+
+<p>&nbsp;</p>
+<div id="pt_instructions">&nbsp;</div>
+<!--<p>Developed by:
+<p><a href="http://wichita.kumc.edu/php">Population Health in Practice</a><br/>Kansas University School of Medicine - Wichita</p>
+-->
+<h3 class="instructions">References</h3>
+<ol class="instructions">
+<li>1: Ebell MH, Jang W, Shen Y, Geocadin RG; Get With the Guidelines–Resuscitation Investigators. Development and validation of the Good Outcome Following Attempted Resuscitation (GO-FAR) score to predict neurologically intact survival after in-hospital cardiopulmonary resuscitation. JAMA Intern Med. 2013 173(20):1872-8. doi: <a href="10.1001/jamainternmed.2013.10037">10.1001/jamainternmed.2013.10037</a>. PMID: <a href="http://pubmed.gov/24018585">24018585</a>.</li>
+<li>1: Schwartz LM, Woloshin S, Welch HG. Using a drug facts box to communicate drug  benefits and harms: two randomized trials. Ann Intern Med. 2009 150(8):516-27. PMID: <a href="http://pubmed.gov/19221371">19221371</a>.
+</ol>
+</div>
+</body>
+</html>
