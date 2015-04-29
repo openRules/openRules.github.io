@@ -14,20 +14,11 @@ var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 results = regex.exec(location.search);
 return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
+
 var site = getParameterByName('site').toLowerCase();
 var bridge = getParameterByName('bridge').toLowerCase();
-var bleedingrisk = getParameterByName('bleedingrisk').toLowerCase();
-var dental = getParameterByName('dental').toLowerCase();
-var holdno = getParameterByName('holdno').toLowerCase();
-var hold5 = getParameterByName('hold5').toLowerCase();
-var hold6 = getParameterByName('hold6').toLowerCase();
 $(document).ready(function(){
 $(function() {
-$("#datepicker").datepicker({
-onSelect: function (dateText, inst) {
-makecalendar()
-}
-});
 //Site defaults
 if (site == "heartland"){
 	//$("#INRdaybefore_yes").attr("checked", "checked");
@@ -43,202 +34,14 @@ if (bridge == "0"){
 if (bridge == "1"){
 	$("#bridgeqd").attr("checked", "checked");
 	}
-if (bridge == "2"){
-	$("#bridgebid").attr("checked", "checked");
-	}
-if (bleedingrisk == "2"){
-	$("#bleedingrisk_group").show()
-	$("#bleedingrisk_high").attr("checked", "checked");
-	}
-if (bleedingrisk == "0" || bleedingrisk == "1"){
-	$("#bleedingrisk_other").attr("checked", "checked");
-	}
-if (dental == "1"){
-	$("#tranexamic_acid").attr("checked", "checked");
-	}
-if (hold6 == "1"){
-	$("#hold6").attr("checked", "checked");
-	}
-if (holdno == "1"){
-	$("#holdno").attr("checked", "checked");
-	}
 //Event handlers
-$("#bridgeqd").click(function(){
-//$("#holdno").attr("checked",false); //Cleaning in case left on
-$("#bleedingrisk_group").show();
-makecalendar()
-});
-$("#bridgebid").click(function(){
-//$("#holdno").attr("checked",false); //Cleaning in case left on
-$("#bleedingrisk_group").show();
-makecalendar()
-});
-$("#bridgeno").click(function(){
-$("#bleedingrisk_group").hide();
-makecalendar()
-});
-$("#holdno").click(function(){
-$("#bridgeno").attr("checked", true); //Prevent harm
-makecalendar()
-});
-$("#hold5").click(function(){
-makecalendar()
-});
-$("#hold6").click(function(){
-makecalendar()
-});
-$("#bleedingrisk_high").click(function(){
-makecalendar()
-});
-$("#bleedingrisk_other").click(function(){
-makecalendar()
-});
-$("#tranexamic_acid").click(function(){
-makecalendar()
-});
-$("#hold3").click(function(){
-makecalendar()
-});
 $("#INRdaybefore_yes").click(function(){
 makecalendar()
 });
 })
 });
+
 function makecalendar(){
-//Reset any color changes
-$("#bleedingrisk_label").css("color","black")
-$("#bridgeno_label").css("color","black")
-$("#bridging_label").css("color","black")
-//Clear calendar
-for ( var i = 1; i < 22; i++ ) {
-$("#d" + i).html("&nbsp;");
-$("#a" + i).val("");
-}
-//Start populating calendar
-var dateOfProcedure = $("#datepicker").datepicker('getDate');
-var dateLabel = new Date();
-var dayLabel;
-var dayOfMonth = dateOfProcedure.getDate();
-var dayOfProcedure = dateOfProcedure.getUTCDay() + 8;
-$("#a" + eval(dayOfProcedure - 1)).val("\n\n\n\n") //Needed for replacements
-if ($("#bridgeno").is(':checked')){
-	//no bridge
-	if (!$("#holdno").is(':checked')){
-		//Hold warfarin without bridge
-		if ($("#hold3").is(':checked')){
-			//Dental
-			$("#a" + eval(dayOfProcedure - 3)).val("Last warfarin");
-			}
-		else if ($("#hold6").is(':checked')){
-			//This would make no sense
-			$("#a" + eval(dayOfProcedure - 6)).val("Last warfarin");
-			}
-		else{
-			//Low TE risk so hold warfarin without bridge
-			$("#a" + eval(dayOfProcedure - 5)).val("Last warfarin");
-			}
-		$("#a" + eval(dayOfProcedure + 3)).val("\n\n\n\n");
-		$("#a" + eval(dayOfProcedure + 3)).val($("#a" + eval(dayOfProcedure + 3)).val().replace("\n\n\n\n","\n\nINR check\n\n"));
-		}
-	else{
-		//Neither hold warfarin nor bridge
-		//Must be minor dental, skin, eye
-		}
-	}
-else{
-	//Bridge
-	if ($("#holdno").is(':checked')){
-		//alert('Warning: you seem to be trying to give both warfarin and LMWH?\n\nHint: select no bridge before clicking this button.');
-		//No hint
-		alert('Warning: you seem to be trying to give both warfarin and LMWH?');
-		$("#bridgeno").attr("checked", true); //Prevent harm
-		return;
-		//$("#holdno").attr("checked", true);
-		}
-	//Bridge QD or BID
-	if ($("#bridgeqd").is(':checked')){
-		//Bridge QD
-		//When to resume based on bleeding risk?
-		if ($("#bleedingrisk_high").is(':checked')){
-			$("#a" + eval(dayOfProcedure + 2)).val("If ok with surgeon:\nInject in A.M.\n\n\n\n");//Recommendation 2012 - 4.4
-			}
-		else if ($("#bleedingrisk_other").is(':checked')){
-			$("#a" + eval(dayOfProcedure + 1)).val("If ok with surgeon:\nInject in A.M.\n\n\n\n");//Recommendation 2012 - 4.4
-			$("#a" + eval(dayOfProcedure + 2)).val("\n\nInject in A.M.\n\n\n\n");
-			}
-	else{
-		//Warning
-		//$("#bridging_label").css("color","red")
-		$("#bleedingrisk_label").css("color","red");
-		return;
-		}
-	if ($("#hold6").is(':checked')){
-	$("#a" + eval(dayOfProcedure - 4)).val("\n\nInject in A.M.\n\n\n\n");
-	}
-	$("#a" + eval(dayOfProcedure - 3)).val("\n\nInject in A.M.\n\n\n\n");
-	$("#a" + eval(dayOfProcedure - 2)).val("\n\nInject in A.M.\n\n\n\n");
-	$("#a" + eval(dayOfProcedure - 1)).val("\n\nInject 1/2 dose in A.M.\n\n\n\n");
-	$("#a" + eval(dayOfProcedure )).val("\n\nInject 1/2 dose in A.M.\n\n\n\n");
-	$("#a" + eval(dayOfProcedure + 3)).val("\n\nInject in A.M.\n\n\n\n");
-	}
-	if ($("#bridgebid").is(':checked')){
-	//Bridge BID
-	//When to resume based on bleeding risk?
-	if ($("#bleedingrisk_high").is(':checked')){
-	$("#a" + eval(dayOfProcedure + 2)).val("If ok with surgeon:\nInject in A.M.\n\n\n\nInject in P.M.");//Recommendation 2012 - 4.4
-	}
-	else if ($("#bleedingrisk_other").is(':checked')){
-	$("#a" + eval(dayOfProcedure + 1)).val("If ok with surgeon:\nInject in A.M.\n\n\n\nInject in P.M.");//Recommendation 2012 - 4.4
-	$("#a" + eval(dayOfProcedure + 2)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
-	}
-	else{
-	//Warning
-	//$("#bridging_label").css("color","red")
-	$("#bleedingrisk_label").css("color","red")
-	return;
-	}
-	if ($("#hold6").is(':checked')){
-	$("#a" + eval(dayOfProcedure - 4)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
-	}
-	$("#a" + eval(dayOfProcedure - 3)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
-	$("#a" + eval(dayOfProcedure - 2)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
-	$("#a" + eval(dayOfProcedure - 1)).val("\n\nInject in A.M.\n\n\n\n"); //Recommendation 2012 - 4.3
-	$("#a" + eval(dayOfProcedure + 3)).val("\n\nInject in A.M.\n\n\n\nInject in P.M.");
-	}
-	//When to stop warfarin?
-	if ($("#hold3").is(':checked')){
-	//Stop 3 days before
-	$("#a" + eval(dayOfProcedure - 3)).val("Last warfarin");
-	}
-	else if ($("#hold6").is(':checked')){
-	//Stop 6 days before
-	$("#a" + eval(dayOfProcedure - 6)).val("\n\nLast warfarin\n\n\n\n");
-	}
-	else{
-	//Stop 5 days before
-	$("#a" + eval(dayOfProcedure - 5)).val("\n\nLast warfarin\n\n\n\n");
-	}
-	//Wrap up
-	$("#a" + eval(dayOfProcedure + 3)).val($("#a" + eval(dayOfProcedure + 3)).val().replace("\n\n\n\n","\n\nINR check\n\n"));
-	$("#a" + eval(dayOfProcedure + 4)).val("\n\nContinue injections until INR is therapeutic.\n\n");
-	//End of instructions for bridging
-	}
-$("#a" + eval(dayOfProcedure + 0)).val("If ok with surgeon:\n\n\n\nStart warfarin in P.M."); //Recommendation 2012 - 2.2
-//INR check before procedure
-if ($("#INRdaybefore_yes").is(':checked')){
-$("#a" + eval(dayOfProcedure - 1)).val($("#a" + eval(dayOfProcedure - 1)).val().replace("\n\n\n\n","\n\nINR check\n\n"));
-}
-for ( var i = -14; i < 14; i++ ) {
-dateLabel.setDate(dateOfProcedure.getDate() + i);
-dayLabel = dateLabel.getDate();
-$("#d" + eval(dayOfProcedure + i)).html(dayLabel);
-}
-$("#pt_instructions").html("");
-if ($("#tranexamic_acid").is(':checked'))
-{
-$("#pt_instructions").html("<h4>The healthcare provider performing your procedure may use an oral rinse to decrease bleeding</h4><span style=\"font-weight:bold\"><a href=\"http://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=6e89a7d9-4da4-42aa-b7f8-c602c24eefe5\">Tranexamic acid</a> (hard to find)</span><ul><li>It is given as one teaspoon (5 ml) oral rinse, 5 to 10 min before the dental procedure and 3 to 4 times daily for 1 to 2 days after the procedure. </li><li>Hold 10 mL in mouth and rinse for 2 minutes then spit out. </li><li>Do not eat or drink for 1 hour after using oral rinse. <l/i><li>Minor bleeding (or oozing from gingival mucosa) may occur. Continue tranexamic acid use and apply local pressure to stop such bleeding.</li></ul><span style=\"font-weight:bold\">Easier to find is <a href=\"http://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=2238c70f-b0b5-4755-896b-45b28777b217&\">epsilon-aminocaproic acid</a> (Amicar solution)<sup>3</sup>.</span><ul><li>Mouthwashes are gently performed with 10 mL (two teaspoons or 2.5 grams) for 2 minutes just before the dental procedure and every 1 to 2 hours following the procedure for about one day <!--6 hours for 2 days--> (references 3, 4 and <a href='http://www.clotcare.com/faq_amicarsolution.aspx'>ClotCare</a>).</li></ul>");
-}
-$("#d" + eval(dayOfProcedure)).html("<span style=\"color:red;float:left\">*Procedure*</span><span style=\"color:red;float:right;\">" + dayOfMonth + "</span>");
 }
 </script>
 <style>
@@ -398,7 +201,7 @@ What difference did CPR make?
 People who received CPR
 </th>
 <th>
-People who did not receive CPR
+People who did <i>not</i> receive CPR
 </th>
 </tr>
 <tr>
@@ -413,7 +216,7 @@ People who did not receive CPR
 <br><span style="font-weight:bold;color:red">20%<br><br>15%</span><br><br>
 </td>
 <td align="center">
-<br><b>None survive<br><br>None survive</b><br><br>
+<br><b>None survived<br><br>None survived</b><br><br>
 </td>
 </tr>
 <tr>
