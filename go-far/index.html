@@ -92,10 +92,12 @@ if (site.length>0)
 document.write("<img src=\"/images/sites/" + site + ".png\" style=\"display: block;margin-left: auto; margin-right: auto;\" />")
 }
 </script>
-<h2>GO-FAR Score to Predict Neurologically Intact Survival After In-Hospital Cardiopulmonary Resuscitation</h2>
+<h1>Do I want to undergo CPR in the future?</h1>
+<h4>GO-FAR Score to Predict Neurologically Intact Survival After In-Hospital Cardiopulmonary Resuscitation</h4>
 <div style="background-color:#E4E4E4; max-width:850px;padding:1px 5px 1px 5px" align="center" class="instructions">
 
 <fieldset style="border: 3px solid #6DC6E7; background-color:#E4E4E4;">
+		<legend>Your current state:</legend>
 <table style="align:center">
 <tr>
 <td>Acute stroke? <a href="#" class="hastip" id="var1tip">(explain)</a></td>
@@ -135,8 +137,35 @@ document.write("<img src=\"/images/sites/" + site + ".png\" style=\"display: blo
 <td><input type="radio" name="var9" id="var9n" checked /><label for="var9n">No</label></td>
 </tr>
 </table>
-<button id="bttn1">Calculate survival (not working)</button>
 </fieldset>
+
+<fieldset style="border: 3px solid #6DC6E7; background-color:#E4E4E4;">
+		<legend>What function in the future is acceptable?</legend>
+<table style="align:center">
+<tr>
+<td>Good cerebral performance: conscious, alert, able to work, might have mild neurologic or psychologic deficit.</td>
+<td><input type="radio" name="cpc" id="cpc1"/><label for="cpc1"></label></td>
+</tr>
+<tr>
+<td>Moderate cerebral disability: conscious, sufficient cerebral function for independent activities of daily life. Able to work in sheltered environment</td>
+<td><input type="radio" name="cpc" id="cpc2"/><label for="cpc2"></label></td>
+</tr>
+<tr>
+<td>Severe cerebral disability: conscious, dependent on others for daily support because of impaired brain function. Ranges from ambulatory state to severe dementia or paralysis.</td>
+<td><input type="radio" name="cpc" id="cpc3"/><label for="cpc3"></label></td>
+</tr>
+<tr>
+<td>Brain death: apnea, areflexia, EEG silence, etc.</td>
+<td><input type="radio" name="cpc" id="cpc4"/><label for="cpc4"></label></td>
+</tr>
+<tr>
+<td>Coma or vegetative state: any degree of coma without the presence of all brain death criteria. Unawareness, even if appears awake (vegetative state) without interaction with environment; may have spontaneous eye opening and sleep/awake cycles. Cerebral unresponsiveness.</td>
+<td><input type="radio" name="cpc" id="cpc5"/><label for="cpc5"></label></td>
+</tr>
+</table>		
+</fieldset>
+
+<button id="bttn1">Calculate survival (not working)</button>
 
 </div>
 
@@ -175,7 +204,7 @@ People who do <i>NOT</i> want to live if their heart or lung stops.
 Who recommends CPR?
 </td>
 <td>
-The ... association (what to put here)
+The American Heart Association States "Truly informed decisions require that individuals receive and understand accurate information about their condition and prognosis, as well as the nature, risks, benefits, and alternatives of any proposed interventions. The individual must deliberate and choose among alternatives by linking the decision to his or her framework of values."
 </td>
 </tr>
 <tr>
@@ -209,7 +238,7 @@ People who did <i>not</i> receive CPR
 <b>Did CPR help?</b>
 <ul>
 <!--<li>Survival for someone with the characteristics entered above is: (this item could be omitted)</li>-->
-<li>Survival with <i>good</i> (<a href="#">details</a>) mental status for someone with the characteristics ('average risk') entered above is: </li>
+<li>Survival with mental status as requested above for someone with the characteristics entered above is: </li>
 </ul>
 </td>
 <td align="center">
@@ -223,7 +252,7 @@ People who did <i>not</i> receive CPR
 <td>
 <b>Did CPR cause harm?</b><br>
 <ul>
-<li>Survival with <i>decreased</i> mental status for someone with the characteristics ('average risk') entered above is: </li>
+<li>Survival with mental status <i>less than that requested above</i> for someone with the characteristics entered above is: </li>
 </ul>
 </td>
 <td align="center">
@@ -248,6 +277,8 @@ People who did <i>not</i> receive CPR
 <ol class="instructions">
 <li>Ebell MH, Jang W, Shen Y, Geocadin RG; Get With the Guidelines - Resuscitation Investigators. Development and validation of the Good Outcome Following Attempted Resuscitation (GO-FAR) score to predict neurologically intact survival after in-hospital cardiopulmonary resuscitation. JAMA Intern Med. 2013 173(20):1872-8. PMID: <a href="http://pubmed.gov/24018585">24018585</a>.</li>
 <li>Girotra S, Nallamothu BK, Spertus JA, Li Y, Krumholz HM, Chan PS; American Heart Association Get with the Guidelines–Resuscitation Investigators. Trends in survival after in-hospital cardiac arrest. N Engl J Med. 2012 367(20):1912-20. PMID: <a href="http://pubmed.gov/23150959">23150959</a></li>
+<li>Morrison LJ, Kierzek G, Diekema DS, Sayre MR, Silvers SM, Idris AH, Mancini
+ME. Part 3: ethics: 2010 American Heart Association Guidelines for Cardiopulmonary Resuscitation and Emergency Cardiovascular Care. Circulation. 2010 Nov 2;122(18 Suppl 3):S665-75. PMID: <a href="http://pubmed.gov/20956219">20956219</a></li>
 <li>Schwartz LM, Woloshin S, Welch HG. Using a drug facts box to communicate drug  benefits and harms: two randomized trials. Ann Intern Med. 2009 150(8):516-27. PMID: <a href="http://pubmed.gov/19221371">19221371</a>.
 </ol>
 </div>
