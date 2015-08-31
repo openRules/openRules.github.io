@@ -7,6 +7,9 @@
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <link rel="stylesheet" href="/resources/demos/style.css">
+<!-- tooltip -->
+<script type="text/javascript" src="/qtip/jquery.qtip.min.js"></script>
+<link rel="stylesheet" type="text/css" href="/qtip/jquery.qtip.min.css" />
 <script>
 function getParameterByName(name) {
 name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -15,35 +18,88 @@ results = regex.exec(location.search);
 return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-var site = getParameterByName('site').toLowerCase();
-var bridge = getParameterByName('bridge').toLowerCase();
-$(document).ready(function(){
-$(function() {
-//Site defaults
-if (site == "heartland"){
-	//$("#INRdaybefore_yes").attr("checked", "checked");
-	$("#bridgeno").attr("checked", "checked");
-	$("#bleedingrisk_group").hide();
-	}
-//Pass selection from algorithm
-//Note that these will override site defaults
-if (bridge == "0"){
-	$("#bridgeno").attr("checked", "checked");
-	$("#bleedingrisk_group").hide();
-	}
-if (bridge == "1"){
-	$("#bridgeqd").attr("checked", "checked");
-	}
-//Event handlers
-$("#INRdaybefore_yes").click(function(){
-makecalendar()
-});
-})
-});
+    $(document).ready(function(){
+      $("#submitbutton").on("click", function(){
+        //disable the button to prevent multiple clicks
+        $("#submitbutton").attr("disabled", "disabled");
+        
+        //read the values
+        var age0 = $("#age").val() * 1;
+		var gender = 'f'
+		if ($("#gender1").prop("checked") == true){gender = 'm'}
+		var ethnicity = 'h'
+		if ($("#ethnicity0").prop("checked") == true){ethnicity = 'b'}
+		if ($("#ethnicity1").prop("checked") == true){ethnicity = 'w'}
+		if ($("#ethnicity2").prop("checked") == true){ethnicity = 'a'}
+		if ($("#ethnicity3").prop("checked") == true){ethnicity = 'h'}
+		var smoke0 = 0
+		if ($("#smoker1").prop("checked") == true){smoke0 = 1}
+		var diabetes0 = 0
+		if ($("#diabetes1").prop("checked") == true){diabetes0 = 1}
+		var bprx = 0
+		if ($("#bprx1").prop("checked") == true){bprx = 1}
+        var sbp = $("#sbp").val() * 1;
+        var tchol0 = $("#tchol").val() * 1;
+        var hdl0 = $("#hdl").val() * 1;
+	  
+        //perform the request
+        var req = opencpu.r_fun_json("cardiovascularrisk", {
+        age0 : age0,
+        gender : gender,
+        ethnicity : ethnicity,
+        smoke0 : smoke0,
+		diabetes0 : diabetes0,
+		bprx : bprx,
+		sbp : sbp,
+		tchol0 : tchol0,
+		hdl0 : hdl0
+	  }, function(output){
+          document.getElementById("output").innerHTML = output.message
+        });
+        
+        //if R returns an error, alert the error message
+        req.fail(function(){
+          alert("Server error: " + req.responseText);
+        });
+        
+        //after request complete, re-enable the button 
+        req.always(function(){
+          $("#submitbutton").removeAttr("disabled")
+        });
+      });
 
-function makecalendar(){
-}
+	//http://qtip2.com/
+	// Apply tooltip on all <a/> elements with title attributes. Mousing over
+    // these elements will the show tooltip as expected, but mousing onto the
+    // tooltip is now possible for interaction with it's contents.
+    //$('a').each(function () {
+    $('.hastip').each(function () {
+        $(this).qtip({
+            content: $(this).next('.tooltiptext'),
+            hide: {
+                fixed: true,
+                delay: 300
+            },
+			position: {
+				my: 'bottom left',  // Position my top left...
+				at: 'bottom right', // at the bottom right of...
+			},
+			style: { classes: 'ToolTipClass'
+			}
+		});
+    });
+
+	$('.hastip').click(function(e) {
+		e.stopPropagation();
+		return false;
+	});	
+      //this is only needed when using CORS (i.e. web pages hosted outside opencpu)
+      if(!location.pathname.match("^/ocpu/.*/appdemo/www")){
+        opencpu.seturl("//public.opencpu.org/ocpu/library/appdemo/R");
+      }
+    });
 </script>
+ 
 <style>
 .wrapper, #table
 {
@@ -62,19 +118,20 @@ font-size:16px;
 td{
 padding:10px;
 }
+.tooltiptext{
+	display: none;
+}
+.ToolTipClass{
+	color:black;
+	border-color:#0022B4;
+	background-color: #6DC6E7
+}
 @media print {
 .instructions {
 display:none;
 }
 spacer{
 display:block;
-}
-.weekend
-{
-background-color:#C0C0C0;
-box-shadow: inset 0 0 0 1000px #C0C0C0;
--webkit-print-color-adjust: exact;
-print-color-adjust: exact;
 }
 }
 @media screen {
@@ -150,7 +207,14 @@ CPR study findings box
 What difference did CPR make?
 </th>
 <th>
-People who received CPR*
+People who <span style="font-weight:bold;color:red">survived</span> <span style="font-weight:bold;color:red" class="hastip">issue</span> CPR*
+ <div class="tooltiptext">
+See Table 4 of Go-FAR PMID <a href="http://pubmed.gov/24018585">24018585</a>
+		<ul>
+			<li>Data supports prediction of cognitive state among those who <i>survive</i> CPR</li>
+			<li>Would we rather be able to predict this for those who <i>undergo</i> CPR or for both</li>
+		</ul>
+</div>
 </th>
 <th>
 People who did <i>not</i> receive CPR
@@ -229,8 +293,5 @@ document.write("<div style='text-align:center'><a href='https://github.com/openR
             } catch(err) {}
           </script>
 <div id="tip" style="display:none"></div>
-</body>
-</html>
-
 </body>
 </html>
