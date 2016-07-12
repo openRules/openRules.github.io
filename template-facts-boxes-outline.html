@@ -79,6 +79,10 @@ h1, h2, h1 a{
   $( function() {
     $( document ).tooltip();
   } );
+	function toggleit (itemno){
+		$(".extra").css("display", "none")
+		document.getElementById(itemno).style.display = (document.getElementById(itemno).style.display == "none" ) ? "" : "none";
+	}
 </script>
 </head>
 <body ng-app="">
@@ -86,7 +90,7 @@ h1, h2, h1 a{
     <div id="wrapper">
         <h1><a href="http://OpenRules.github.io">OpenRules.github.io</a></h1>
 		<div id="input">
-        <h2>Enter values</h2>
+        <h2>Tempalte: Screening/treating  for disease x with y</h2>
 <form name="myForm">
  <fieldset style="border: 3px solid #6DC6E7; background-color: #FFFFFF;">
  <legend>Enter values:</legend>
@@ -123,7 +127,8 @@ h1, h2, h1 a{
 	<table><tr><td>What do expert organizations recommend?</td>
 	<td><ul><li>The United States Preventive Services Task Force <a href="#" title="&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(references 1,2)">(show)</a></li>
 <li>The American Cancer Society</li></ul></td></tr></table>
-	<h3>Documentation</h3>
+
+<h3>Documentation for these styles</h3>
 <ul><li><a href="http://www.w3schools.com/js/js_validation.asp">w3schools: JavaScript Form Validation</a></li>
 <li><a href="https://angularjs.org/">AngularJS</a></li>
 <li>Labels to use to indicate mouseover tips: 'show' and 'explain'</li>
@@ -134,13 +139,18 @@ h1, h2, h1 a{
 
 	<table width="100%" align="center">
 	<tr>
-	<td class="listitem"><a href="/patients.html">For patients</a></td>
-	<td class="listitem"><a href="about.html">About</a></td>
+	<td class="listitem"><a onclick="toggleit('patients');return false" href="#">For patients</a></td>
+	<td class="listitem"><a onclick="toggleit('about');return false" href="#">About</a></td>
+	<td class="listitem"><a onclick="toggleit('references');return false" href="#">References</a></td>
 	<td class="listitem"><a href="https://guides.github.com/activities/hello-world/">Collaborate</a></td>
 	<td class="listitem"><a href="https://github.com/openRules/facts-boxes/wiki/Contact-us">Contact us</a></td>
 	</tr>
 	</table>
 	
+	<div id="patients" style="display:none;text-align:left" class="extra"><h3>Next steps</h3>We encourage you</div>
+	<div id="about" style="display:none;text-align:left" class="extra"><h3>Last update</h3> <div id="">On 1/1/2000 we...</div></div>
+	<div id="references" style="display:none;text-align:left" class="extra"><h3>References</h3><ol><li></li><li></li></ol></div>
+			
       </div>
       </div>
 </body>
