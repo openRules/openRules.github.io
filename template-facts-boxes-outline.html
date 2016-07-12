@@ -14,7 +14,7 @@ body
 }
 #wrapper
 {
-  width: 860px;
+  max-width: 860px;
   margin-top: 0px;
   margin-right: auto;
   margin-bottom: 0px;
@@ -24,55 +24,22 @@ body
 {
   width: 270px;
   float: left;
-  position: fixed;
+  display:inline-block;
 }
 #results
 {
+  position: relative;
   width: 500px;
   float: right;
   padding-bottom: 50px;
+  display:inline-block;
 }
 #footer
 {
   width: 270px;
   float: left;
-  position: fixed;
-  bottom: 50px;
+  text-align:center;
 }
-
-@media print, screen and (max-width: 720px) {
-  body {
-    word-wrap:break-word;
-  }
-  
-  #header {
-    padding:0;
-  }
-  
-  #header ul, #header p.view {
-    position:static;
-  }
-
-}
-
-@media print, screen and (max-width: 480px) {
-  body {
-    padding:15px;
-  }
-  
-  #header ul {
-    display:none;
-  }
-}
-
-@media print {
-  body {
-    padding:0.4in;
-    font-size:12pt;
-    color:#444;
-  }
-}
-
 </style>
 </head>
 <body>
@@ -121,27 +88,8 @@ body
 		</ul>
 <div><a href="https://github.com/openRules/home/issues">Questions?</a></div>
       </div>
-    <div id="footer">Footer<br/>dsf
+    <div id="footer" style="clear:both">Footer<br/>dsf
       </div>
       </div>
-<script>
-var metas = document.getElementsByTagName('meta');
-var i;
-if (navigator.userAgent.match(/iPhone/i)) {
-  for (i=0; i<metas.length; i++) {
-    if (metas[i].name == "viewport") {
-      metas[i].content = "width=device-width, minimum-scale=1.0, maximum-scale=1.0";
-    }
-  }
-  document.addEventListener("gesturestart", gestureStart, false);
-}
-function gestureStart() {
-  for (i=0; i<metas.length; i++) {
-    if (metas[i].name == "viewport") {
-      metas[i].content = "width=device-width, minimum-scale=0.25, maximum-scale=1.6";
-    }
-  }
-}
-</script>
 </body>
 </html>
