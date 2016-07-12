@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <meta http-equiv="X-UA-Compatible" content="chrome=1">
+ <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Template for layout</title>
+<style>
+body
+{
+  padding-top: 50px;
+  padding-right: 50px;
+  padding-bottom: 50px;
+  padding-left: 50px;
+}
+#wrapper
+{
+  width: 860px;
+  margin-top: 0px;
+  margin-right: auto;
+  margin-bottom: 0px;
+  margin-left: auto;
+}
+#input
+{
+  width: 270px;
+  float: left;
+  position: fixed;
+}
+#results
+{
+  width: 500px;
+  float: right;
+  padding-bottom: 50px;
+}
+#footer
+{
+  width: 270px;
+  float: left;
+  position: fixed;
+  bottom: 50px;
+}
+
+@media print, screen and (max-width: 720px) {
+  body {
+    word-wrap:break-word;
+  }
+  
+  #header {
+    padding:0;
+  }
+  
+  #header ul, #header p.view {
+    position:static;
+  }
+
+}
+
+@media print, screen and (max-width: 480px) {
+  body {
+    padding:15px;
+  }
+  
+  #header ul {
+    display:none;
+  }
+}
+
+@media print {
+  body {
+    padding:0.4in;
+    font-size:12pt;
+    color:#444;
+  }
+}
+
+</style>
+</head>
+<body>
+
+    <div id="wrapper">
+    <div id="input">
+        <h1>Openrules.GitHub.io</h1>
+        <p>Collaboratively created clinical prediction rules and decision aids</p>
+
+
+        <p class="view"><a href="https://github.com/openRules">GitHub Profile</a></p>
+
+      </div>
+    <div id="results"><h2>Results</h2>
+	<h3>
+<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available prediction rules and decision aids</h3>
+
+<!--<li><a href="https://openrules.github.io/go-far">GO-FAR Score to Predict Neurologically Intact Survival After In-Hospital Cardiopulmonary Resuscitation</a></li>-->
+
+<h3>Perioprocedure anticoagulation</h3>
+    <ul>
+      <li><a href="periprocedure_anticoagulation/dabigatran.html">Dabigatran calendar</a> (under construction)</li>
+      <li><a href="https://guidelines.github.io/anticoagulation/periprocedure-calendar.html">Warfarin calendar</a></li>
+      <li><a href="https://guidelines.github.io/anticoagulation/ACCP.%202012%20Anticoagulation%20guidelines%20-%20periprocedure.html#">Warfarin ACCP guidelines</a></li>
+    </ul>
+
+	  <h3>Cardiovascular</h3>
+	        <ul>
+			<li><a href="opencpu-launch.htm?https://openrules.ocpu.io/home/www/duke_activity_status_index.html">Duke Specific Activity Index</a></li>
+			<li><a href="opencpu-launch.htm?https://openrules.ocpu.io/home/www/cardiovascularrisk.html">Probability of cardiovascular event in 10 years</a> (using New Pooled Cohort ASCVD Risk Equations)</li>
+			<li><a href="#">Probability of stroke in women</a> (using WSSC Stroke calculator)(not implemented)</li>
+		</ul>
+
+	  <h3>Oncology</h3>
+	        <ul>
+			<li><a href="opencpu-launch.htm?https://openrules.ocpu.io/home/www/bcra.html">Probability of breast cancer in women and impact of mammography</li>
+			<li><a href="opencpu-launch.htm?https://openrules.ocpu.io/home/www/pulmnodule.html">Probability of cancer in lung nodules</a></li>
+		</ul>
+
+	  <h3>About</h3>
+	        <ul>
+			<li><a id="authors-and-contributors" class="anchor" href="https://github.com/orgs/openRules/teams" aria-hidden="true"><span class="octicon octicon-link">Authors and Contributors</span></a></li>
+			<li><a href="https://github.com/openrules">Source code at GitHub</a> (Please help add new prediction rules or improve existing rules)</li>
+			<li><a href="../man/home/html">Help</a></li>
+			<li>These pages may not function on older versions of Internet Explorer.</li>
+		</ul>
+<div id=""><a href="https://github.com/openRules/home/issues">Questions?</a></div>
+      </div>
+    <div id="footer">Footer<br/>dsf
+      </div>
+      </div>
+<script>
+var metas = document.getElementsByTagName('meta');
+var i;
+if (navigator.userAgent.match(/iPhone/i)) {
+  for (i=0; i<metas.length; i++) {
+    if (metas[i].name == "viewport") {
+      metas[i].content = "width=device-width, minimum-scale=1.0, maximum-scale=1.0";
+    }
+  }
+  document.addEventListener("gesturestart", gestureStart, false);
+}
+function gestureStart() {
+  for (i=0; i<metas.length; i++) {
+    if (metas[i].name == "viewport") {
+      metas[i].content = "width=device-width, minimum-scale=0.25, maximum-scale=1.6";
+    }
+  }
+}
+</script>
+</body>
+</html>
