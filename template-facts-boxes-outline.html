@@ -4,6 +4,10 @@
  <meta charset="utf-8">
  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>OpenRules.github.io</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 <style>
 body
 {
@@ -18,7 +22,7 @@ h1, h2, h1 a{
 }
 #wrapper
 {
-  max-width: 860px;
+  max-width: 960px;
   margin-top: 0px;
   margin-right: auto;
   margin-bottom: 0px;
@@ -26,7 +30,7 @@ h1, h2, h1 a{
 }
 #input
 {
-  width: 270px;
+  width: 370px;
   float: left;
   display:inline-block;
 }
@@ -71,24 +75,65 @@ h1, h2, h1 a{
 	//font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif
 }
 </style>
+<script>
+  $( function() {
+    $( document ).tooltip();
+  } );
+</script>
 </head>
-<body>
+<body ng-app="">
 
     <div id="wrapper">
         <h1><a href="http://OpenRules.github.io">OpenRules.github.io</a></h1>
 		<div id="input">
-        <h2>Enter values<h2>
-
+        <h2>Enter values</h2>
+<form name="myForm">
+ <fieldset style="border: 3px solid #6DC6E7; background-color: #FFFFFF;">
+ <legend>Enter values:</legend>
+<div>
+<label for="free">Free text example:</label>
+<input name="free" ng-model="free" required>
+<span ng-show="myForm.free.$untouched && myForm.free.$invalid" style="color:red;font-size:large;font-weight:bold">*</span>
+</div>
+<div>&nbsp;</div>
+<div>
+<label for="race">Enter race/ethnicity:</label>
+<select ng-model="race" name="race" required>
+      <option value="anglo">Anglo</option>
+      <option value="aa">African-American</option>
+</select>
+<span ng-show="myForm.race.$untouched && myForm.race.$invalid" style="color:red;font-size:large;font-weight:bold">*</span>
+</div>
+<div>&nbsp;</div>
+<div style="text-align:left">Gender: <input type="radio" name="gender" ng-model="gender" value="female" type="text" required>Female <input type="radio" name="gender" ng-model="gender" value="male">Male 
+</div>
+<div>&nbsp;</div>
+<div style="text-align:left"><label for="age">Your age:</label>
+<input type="number" name="age" ng-model="age" min="35" max="99" required title="This decision aid applied to women older than 35 years">
+<span ng-show="myForm.age.$invalid" style="color:red;font-size:large;font-weight:bold">*</span>
+</div>
+<div>&nbsp;</div>
+<div><span style="color:red;font-size:large;font-weight:bold">*</span> Required values</div>
+<div style="text-align:center">		<button id="submitbutton" type="submit">Submit</button></div>
+</fieldset>
+</form>
       </div>
     <div id="results"><h2>Results</h2>
 
-      </div>
+	<table><tr><td>What do expert organizations recommend?</td>
+	<td><ul><li>The United States Preventive Services Task Force <a href="#" title="&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(references 1,2)">(show)</a></li>
+<li>The American Cancer Society</li></ul></td></tr></table>
+	<h3>Documentation</h3>
+<ul><li><a href="http://www.w3schools.com/js/js_validation.asp">w3schools: JavaScript Form Validation</a></li>
+<li><a href="https://angularjs.org/">AngularJS</a></li></ul>
+	
+    </div>
     <div id="footer" style="clear:both">
 
 	<table width="100%" align="center">
 	<tr>
-	<td class="listitem"><a href="/patients.html">For patients</td>
-	<td class="listitem"><a href="about.html">About</td>
+	<td class="listitem"><a href="/patients.html">For patients</a></td>
+	<td class="listitem"><a href="about.html">About</a></td>
 	<td class="listitem"><a href="https://guides.github.com/activities/hello-world/">Collaborate</a></td>
 	<td class="listitem"><a href="https://github.com/openRules/facts-boxes/wiki/Contact-us">Contact us</a></td>
 	</tr>
