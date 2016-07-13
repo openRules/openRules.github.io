@@ -79,6 +79,9 @@ h1, h2, h1 a{
   $( function() {
     $( document ).tooltip();
   } );
+  
+  $(document).tooltip( "close" );
+  
 	function toggleit (itemno){
 		$(".extra").css("display", "none")
 		document.getElementById(itemno).style.display = (document.getElementById(itemno).style.display == "none" ) ? "" : "none";
