@@ -9,12 +9,14 @@
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 <style>
+<body>
 body
 {
   padding-top: 0px;
   padding-right: 50px;
   padding-bottom: 50px;
   padding-left: 50px;
+  height:100%;
 }
 h1, h2, h1 a{
 	text-decoration:none;
@@ -27,6 +29,7 @@ h1, h2, h1 a{
   margin-right: auto;
   margin-bottom: 0px;
   margin-left: auto;
+  height:100%;
 }
 #input
 {
@@ -38,6 +41,7 @@ h1, h2, h1 a{
 {
   position: relative;
   width: 500px;
+  min-height:100%;
   float: right;
   padding-bottom: 50px;
   display:inline-block;
@@ -74,6 +78,10 @@ h1, h2, h1 a{
 	padding:0 15px;
 	//font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif
 }
+.citation
+{
+color:#6DC6E7;
+}
 </style>
 <script>
   $( function() {
@@ -92,6 +100,9 @@ h1, h2, h1 a{
 		$(".extra").css("display", "none")
 		document.getElementById(itemno).style.display = (document.getElementById(itemno).style.display == "none" ) ? "" : "none";
 	}
+$( document ).ready(function() {
+   $("#results").css("height",$("#input").css("height"))
+});
 </script>
 </head>
 <body ng-app="">
@@ -130,17 +141,22 @@ h1, h2, h1 a{
 <div style="text-align:center">		<button id="submitbutton" type="submit">Submit</button></div>
 </fieldset>
 </form>
-      </div>
-    <div id="results"><h2>Results based on your inputs</h2>
+</div>
+
+	<!-- Start of results -->
+    <div id="results">
+	<h2>Results based on your inputs</h2>
 
 	<table><tr><td>What do expert organizations recommend?</td>
-	<td><ul><li>The United States Preventive Services Task Force <a href="#" title="&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(references 1,2)">(show)</a></li>
-<li>The American Cancer Society</li></ul></td></tr></table>
+	<td><ul><li>The United States Preventive Services Task Force <a href="#" title="&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(references 1,2)">(show)</a><sup class="citation">(<a href="http://pubmed.gov/18838716" title="Click for retrieve source at PubMed" class="citation">USPSTF, 2008</a>)</sup></li>
+	<li>The American Cancer Society<sup class="citation">(<a href="http://pubmed.gov/18322143" title="Click for retrieve source at PubMed" class="citation">ACS, 2008</a>)</sup></li></ul></td></tr></table>
 
-	
+	<div id="version" style="position: absolute; bottom:5px;color:gray; font-size:smaller;width:100%;text-align:center">Last updates: style 02/02/2020; content 1/1/2001</div>
     </div>
+	
+	
+	<!-- -Start of footer -->
     <div id="footer" style="clear:both">
-
 	<table width="100%" align="center">
 	<tr>
 	<td class="listitem"><a onclick="toggleit('patients');return false" href="#">For patients</a></td>
