@@ -20,7 +20,7 @@ body
 }
 h1, h2, h1 a{
 	text-decoration:none;
-	color:#0022B4
+	color:#0022B4;
 }
 #wrapper
 {
@@ -66,6 +66,7 @@ h1, h2, h1 a{
 	font-weight:bold;
 	line-height:32px;
 	padding:0 15px;
+	width:20%;
 }
 
 .listitem a
@@ -75,8 +76,17 @@ h1, h2, h1 a{
 	color:white;
 	font-weight:bold;
 	line-height:32px;
-	padding:0 15px;
 	//font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif
+}
+.required
+{
+color:red;
+font-size:large;
+font-weight:bold;
+}
+.show_explain
+{
+color:#0022B4;
 }
 .citation
 {
@@ -110,14 +120,14 @@ $( document ).ready(function() {
     <div id="wrapper">
         <h1><a href="http://OpenRules.github.io">OpenRules.github.io</a></h1>
 		<div id="input">
-        <h2>Template: Screening/treating  for disease x with y</h2>
+        <h2>Screening/treating  for disease x with y</h2>
 <form name="myForm">
  <fieldset style="border: 3px solid #6DC6E7; background-color: #FFFFFF;">
  <legend>Enter values:</legend>
 <div>
 <label for="free">Free text example:</label>
 <input name="free" ng-model="free" required>
-<span ng-show="myForm.free.$untouched && myForm.free.$invalid" style="color:red;font-size:large;font-weight:bold">*</span>
+<span ng-show="myForm.free.$untouched && myForm.free.$invalid" class="required">*</span>
 </div>
 <div>&nbsp;</div>
 <div>
@@ -126,7 +136,7 @@ $( document ).ready(function() {
       <option value="anglo">Anglo</option>
       <option value="aa">African-American</option>
 </select>
-<span ng-show="myForm.race.$untouched && myForm.race.$invalid" style="color:red;font-size:large;font-weight:bold">*</span>
+<span ng-show="myForm.race.$untouched && myForm.race.$invalid"  class="required">*</span>
 </div>
 <div>&nbsp;</div>
 <div style="text-align:left">Gender: <input type="radio" name="gender" ng-model="gender" value="female" type="text" required>Female <input type="radio" name="gender" ng-model="gender" value="male">Male 
@@ -134,24 +144,24 @@ $( document ).ready(function() {
 <div>&nbsp;</div>
 <div style="text-align:left"><label for="age">Your age:</label>
 <input type="number" name="age" ng-model="age" min="35" max="99" required title="This decision aid applied to women older than 35 years">
-<span ng-show="myForm.age.$invalid" style="color:red;font-size:large;font-weight:bold">*</span>
+<span ng-show="myForm.age.$invalid"  class="required">*</span>
 </div>
 <div>&nbsp;</div>
-<div><span style="color:red;font-size:large;font-weight:bold">*</span> Required values</div>
-<div style="text-align:center">		<button id="submitbutton" type="submit">Submit</button></div>
+<div><span  class="required">*</span> Required values</div>
+<div style="text-align:center"><button id="submitbutton" type="submit">Submit</button></div>
 </fieldset>
 </form>
 </div>
 
 	<!-- Start of results -->
     <div id="results">
-	<h2>Results based on your inputs</h2>
+	<h2>Personalized facts box based on your input</h2>
 
 	<table><tr><td>What do expert organizations recommend?</td>
-	<td><ul><li>The United States Preventive Services Task Force <a href="#" title="&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(references 1,2)">(show)</a><sup class="citation">(<a href="http://pubmed.gov/18838716" title="Click for retrieve source at PubMed" class="citation">USPSTF, 2008</a>)</sup></li>
-	<li>The American Cancer Society<sup class="citation">(<a href="http://pubmed.gov/18322143" title="Click for retrieve source at PubMed" class="citation">ACS, 2008</a>)</sup></li></ul></td></tr></table>
+	<td><ul><li>The United States Preventive Services Task Force <span class="show_explain">(<a href="#" title="&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(references 1,2)" class="show_explain">show</a>)</span><sup class="citation">(<a href="http://pubmed.gov/18838716" title="Click to display source at PubMed in a new window" target="_blank" class="citation">USPSTF, 2008</a>)</sup></li>
+	<li>The American Cancer Society<sup class="citation">(<a href="http://pubmed.gov/18322143" title="Click to display source at PubMed in a new window" target="_blank" class="citation">ACS, 2008</a>)</sup></li></ul></td></tr></table>
 
-	<div id="version" style="position: absolute; bottom:5px;color:gray; font-size:smaller;width:100%;text-align:center">Last updates: style 02/02/2020; content 1/1/2001</div>
+	<div id="version" style="position: absolute; bottom:5px;color:gray; font-size:smaller;width:100%;text-align:center">Last updates: style 02/02/2010; content 1/1/2005. Click 'About' for recent changes.</div>
     </div>
 	
 	
@@ -159,7 +169,7 @@ $( document ).ready(function() {
     <div id="footer" style="clear:both">
 	<table width="100%" align="center">
 	<tr>
-	<td class="listitem"><a onclick="toggleit('patients');return false" href="#">For patients</a></td>
+	<td class="listitem"><a onclick="toggleit('patients');return false" href="#">For patients:<br/>what's next</a></td>
 	<td class="listitem"><a onclick="toggleit('about');return false" href="#">About</a></td>
 	<td class="listitem"><a onclick="toggleit('references');return false" href="#">References</a></td>
 	<td class="listitem"><a href="https://guides.github.com/activities/hello-world/">Collaborate</a></td>
