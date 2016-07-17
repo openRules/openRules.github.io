@@ -5,22 +5,18 @@
  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <title>OpenRules.github.io</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
 <style>
-<body>
 body
 {
   padding-top: 0px;
   padding-right: 50px;
   padding-bottom: 50px;
   padding-left: 50px;
-  height:100%;
 }
 h1, h2, h1 a{
 	text-decoration:none;
-	color:#0022B4;
+	color:#0022B4
 }
 #wrapper
 {
@@ -29,7 +25,6 @@ h1, h2, h1 a{
   margin-right: auto;
   margin-bottom: 0px;
   margin-left: auto;
-  height:100%;
 }
 #input
 {
@@ -41,7 +36,6 @@ h1, h2, h1 a{
 {
   position: relative;
   width: 500px;
-  min-height:100%;
   float: right;
   padding-bottom: 50px;
   display:inline-block;
@@ -66,7 +60,6 @@ h1, h2, h1 a{
 	font-weight:bold;
 	line-height:32px;
 	padding:0 15px;
-	width:20%;
 }
 
 .listitem a
@@ -76,45 +69,57 @@ h1, h2, h1 a{
 	color:white;
 	font-weight:bold;
 	line-height:32px;
+	padding:0 15px;
 	//font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif
 }
-.required
+.is_tip
 {
-color:red;
-font-size:large;
-font-weight:bold;
-}
-.show_explain
-{
-color:#0022B4;
-}
-.citation
-{
-color:#6DC6E7;
+  display:none;
 }
 </style>
 <script>
-  $( function() {
-    $( document ).tooltip();
-  } );
-  
-  //$(document).click(function() {
-  //alert($("*").tooltip( "instance" ))
-  //$("*").tooltip( "close" );
-  //alert( "Handler for .click() called." );
-//});
+function toggleit (itemno){
+	$(".extra").css("display", "none")
+	document.getElementById(itemno).style.display = (document.getElementById(itemno).style.display == "none" ) ? "" : "none";
+}
+$(document).ready(function(){
+$("#results").css("height",$("#input").css("height"))
+function showtip(tiptext, event, width){
+	$("#tip").css('width', width);
+    $("#tip").html(tiptext) //("<div style = 'background-color:white;opacity:1;border-style: solid; border-width: medium;padding:10px'>" + tiptext + '</div>');
+	$("#tip").css('display','block');
+	var pos_left = event.pageX //trigger.position().left;
+        if ((pos_left + $("#tip").width()) > $(window).width()){
+            pos_left = $(window).width() - $("#tip").width() - 10;
+		}
+        if (pos_left < 0){
+            pos_left = 10;
+		}
+	var pos_top =  event.pageY; //trigger.position().top;
+        if ((pos_top + $("#tip").height()) > $(window).height()){
+            pos_top = pos_top + 20 - $("#tip").height();
+		}
+	$("#tip").offset({top: pos_top, left: pos_left});
+}
+//event handlers
+$('a.has_tip').mouseenter(function(event){
+		var tiptext = $(this).attr('tip')
+		tiptext = $("#USPSTF").html()
+		width = "200px"
+		showtip(tiptext, event, width);
+	});
 
-  //$(document).tooltip( "close" );
-  
-	function toggleit (itemno){
-		$(".extra").css("display", "none")
-		document.getElementById(itemno).style.display = (document.getElementById(itemno).style.display == "none" ) ? "" : "none";
-	}
-$( document ).ready(function() {
-   $("#results").css("height",$("#input").css("height"))
-});
+$("#tip").mouseleave(function(event){
+	$( "#tip" ).css('display', 'none');
+	});
+$("body").on("click", function(){
+	$( "#tip" ).css('display', 'none');
+});	
+})
 </script>
 </head>
+
+
 <body ng-app="">
 
     <div id="wrapper">
@@ -126,24 +131,25 @@ $( document ).ready(function() {
  <legend>Enter values:</legend>
 <div>
 <label for="free">Free text example:</label>
-<input name="free" ng-model="free" required>
+<input name="free" id="free" ng-model="free" required>
 <span ng-show="myForm.free.$untouched && myForm.free.$invalid" class="required">*</span>
 </div>
 <div>&nbsp;</div>
 <div>
 <label for="race">Enter race/ethnicity:</label>
-<select ng-model="race" name="race" required>
+<select ng-model="race" name="race" id="race" required>
+      <option value="anglo"></option>
       <option value="anglo">Anglo</option>
       <option value="aa">African-American</option>
 </select>
 <span ng-show="myForm.race.$untouched && myForm.race.$invalid"  class="required">*</span>
 </div>
 <div>&nbsp;</div>
-<div style="text-align:left">Gender: <input type="radio" name="gender" ng-model="gender" value="female" type="text" required>Female <input type="radio" name="gender" ng-model="gender" value="male">Male 
+<div style="text-align:left">Gender: <input type="radio" name="gender" ng-model="gender" value="female" required>Female <input type="radio" name="gender" ng-model="gender" value="male">Male 
 </div>
 <div>&nbsp;</div>
 <div style="text-align:left"><label for="age">Your age:</label>
-<input type="number" name="age" ng-model="age" min="35" max="99" required title="This decision aid applied to women older than 35 years">
+<input type="number" name="age" id="age" ng-model="age" min="35" max="99" required title="This decision aid applied to women older than 35 years">
 <span ng-show="myForm.age.$invalid"  class="required">*</span>
 </div>
 <div>&nbsp;</div>
@@ -158,9 +164,11 @@ $( document ).ready(function() {
 	<h2>Personalized facts box based on your input</h2>
 
 	<table><tr><td>What do expert organizations recommend?</td>
-	<td><ul><li>The United States Preventive Services Task Force <span class="show_explain">(<a href="#" title="&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(references 1,2)" class="show_explain">show</a>)</span><sup class="citation">(<a href="http://pubmed.gov/18838716" title="Click to display source at PubMed in a new window" target="_blank" class="citation">USPSTF, 2008</a>)</sup></li>
-	<li>The American Cancer Society<sup class="citation">(<a href="http://pubmed.gov/18322143" title="Click to display source at PubMed in a new window" target="_blank" class="citation">ACS, 2008</a>)</sup></li></ul></td></tr></table>
-
+	<td><ul>
+	<li>The United States Preventive Services Task Force <a href="#" class="has_tip" tip="USPSTF">(show)</a>
+	<div id="USPSTF" class="is_tip">&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(<a href="http://pubmed.gov/18838716" title="Click to display source at PubMed in a new window" target="_blank" class="citation">USPSTF, 2008</a>)</div></li>
+	<li>The American Cancer Society<sup class="citation">(<a href="http://pubmed.gov/18322143" title="Click to display source at PubMed in a new window" target="_blank" class="citation">ACS, 2008</a>)</sup></li>
+	</ul></td></tr></table>
 	<div id="version" style="position: absolute; bottom:5px;color:gray; font-size:smaller;width:100%;text-align:center">Last updates: style 02/02/2010; content 1/1/2005. Click 'About' for recent changes.</div>
     </div>
 	
@@ -178,10 +186,11 @@ $( document ).ready(function() {
 	</table>
 	
 	<div id="patients" style="display:none;text-align:left" class="extra"><h3>Next steps</h3>We encourage you</div>
-	<div id="about" style="display:none;text-align:left" class="extra"><h3>Last update</h3> <div id="">On 1/1/2000 we...</div></div>
+	<div id="about" style="display:none;text-align:left" class="extra"><h3>Last update</h3> <div>On 1/1/2000 we...</div></div>
 	<div id="references" style="display:none;text-align:left" class="extra"><h3>References</h3><ol><li></li><li></li></ol></div>
 			
       </div>
       </div>
+<div id="tip" style="display:none;background-color:white;opacity:1;border-color:#0022B4;border-style: solid; border-width: medium;padding:10px;position:absolute"></div>
 </body>
 </html>
