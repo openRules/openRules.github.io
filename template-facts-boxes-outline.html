@@ -51,6 +51,12 @@ h1, h2, h1 a{
 @media screen and (max-width: 1000px) {
         #results {float: left; margin-left: auto;}
 }
+.required
+{
+	color:red;
+	font-weight:bold;
+	font-size:larger;
+}
 
 .listitem
 {
@@ -69,7 +75,7 @@ h1, h2, h1 a{
 	color:white;
 	font-weight:bold;
 	line-height:32px;
-	padding:0 15px;
+	//padding:0 15px;
 	//font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif
 }
 .is_tip
@@ -88,6 +94,8 @@ function showtip(tiptext, event, width){
 	$("#tip").css('width', width);
     $("#tip").html(tiptext) //("<div style = 'background-color:white;opacity:1;border-style: solid; border-width: medium;padding:10px'>" + tiptext + '</div>');
 	$("#tip").css('display','block');
+	//alert( pos_left)
+	//alert($(window).width())
 	var pos_left = event.pageX //trigger.position().left;
         if ((pos_left + $("#tip").width()) > $(window).width()){
             pos_left = $(window).width() - $("#tip").width() - 10;
@@ -175,12 +183,13 @@ $("body").on("click", function(){
 	
 	<!-- -Start of footer -->
     <div id="footer" style="clear:both">
-	<table width="100%" align="center">
+	<a name="footer_menu">
+	<table width="100%" align="center" id="footer_menu">
 	<tr>
-	<td class="listitem"><a onclick="toggleit('patients');return false" href="#">For patients:<br/>what's next</a></td>
-	<td class="listitem"><a onclick="toggleit('about');return false" href="#">About</a></td>
-	<td class="listitem"><a href="https://guides.github.com/activities/hello-world/">Collaborate</a></td>
-	<td class="listitem"><a href="https://github.com/openRules/facts-boxes/wiki/Contact-us">Contact us</a></td>
+	<td class="listitem"><a onclick="toggleit('patients');return false" href="#footer_menu">For patients:<br/>what's next</a></td>
+	<td class="listitem"><a onclick="toggleit('about');return false" href="#footer_menu">About</a></td>
+	<td class="listitem"><a onclick="toggleit('collaborate');return false" href="#footer_menu">Collaborate</a></td>
+	<td class="listitem"><a href="https://github.com/openRules/facts-boxes/wiki/Contact-us">Contact us</a>&nbsp;<img src="https://raw.githubusercontent.com/openRules/openRules.github.io/master/images/External.svg.png" width="15px"/></td>
 	</tr>
 	</table>
 	
@@ -189,18 +198,23 @@ $("body").on("click", function(){
 	<p></p>PUT PT INSTRUCTIONS HERE</p>
 	</div>
 	
-	<div id="patients" style="display:none;text-align:left" class="extra"><h3>Collaboratate</h3>
-	<p>We welcome your input.BOB</p>
-	<p>Please contact us (rbadgett@kumc.edu) for suggestions/ideas.</p>
-	<p>If you know how to probram and use GitHub, feel free to fork and pull.</p>
+	<div id="collaborate" style="display:none;text-align:left" class="extra"><h3>Collaborate</h3>
+	<p>We welcome your input.</p>
+	<ol>
+		<li>Please contact us (rbadgett@kumc.edu) for suggestions/ideas.</li>
+		<li>If you know how both to program and to use GitHub, feel free to fork and pull the <a href="https://github.com/openRules/home">source code</a>.</li>
+		<li>If you already know programming, not familiar with GitHub but are interested in learning how to use GitHub, <a href="https://guides.github.com/activities/hello-world/">click here.</a>.</li>
+	</ol>
 	</div>
 
-	<div id="patients" style="display:none;text-align:left" class="extra"><h3>Contact</h3>
-	<p></p>PUT PT INSTRUCTIONS HEREJEET</p>
-	<p></p>PUT PT INSTRUCTIONS HERE</p>
+	<div id="about" style="display:none;text-align:left" class="extra"><h3>Last update</h3> <div>
+	<p>Last updates: style 02/02/2010; content 1/1/2005.</p>
+	<div style="font-weight:bold">References</div>
+	<ol>
+		<li></li>
+		<li></li>
+	</ol>
 	</div>
-	
-	<div id="about" style="display:none;text-align:left" class="extra"><h3>Last update</h3> <div>On 1/1/2000 we...</div></div>
 
       </div>
       </div>
