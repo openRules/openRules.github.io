@@ -47,10 +47,9 @@ h1, h2, h1 a{
   float: left;
   text-align:center;
 }
-.extra
+div.extra
 {
-  display:none;
-  min-height: 100px;
+  min-height:200px;
   text-align:left;
 }
 /* Media query not required, but cosmetically better */
@@ -192,19 +191,19 @@ $("body").on("click", function(){
 	<a name="footer_menu">
 	<table width="100%" align="center" id="footer_menu">
 	<tr>
-	<td class="listitem"><a onclick="toggleit('patients');window.scrollBy(0, 100);return false" href="#footer_menu">For patients:<br/>what's next</a></td>
-	<td class="listitem"><a onclick="toggleit('about');window.scrollBy(0, 100);return false" href="#footer_menu">About</a></td>
-	<td class="listitem"><a onclick="toggleit('collaborate');window.scrollBy(0,100);return false" href="#footer_menu">Collaborate</a></td>
+	<td class="listitem"><a onclick="toggleit('patients');window.scrollBy(0, 200);return false" href="#footer_menu">For patients:<br/>what's next</a></td>
+	<td class="listitem"><a onclick="toggleit('about');window.scrollBy(0, 200);return false" href="#footer_menu">About</a></td>
+	<td class="listitem"><a onclick="toggleit('collaborate');window.scrollBy(0,200);return false" href="#footer_menu">Collaborate</a></td>
 	<td class="listitem"><a href="https://github.com/openRules/facts-boxes/wiki/Contact-us">Contact us</a>&nbsp;<img src="https://raw.githubusercontent.com/openRules/openRules.github.io/master/images/External.svg.png" width="15px"/></td>
 	</tr>
 	</table>
 	
-	<div id="patients" class="extra"><h3>Next steps</h3>
+	<div id="patients" style="display:none;" class="extra"><h3>Next steps</h3>
 	<p></p>PUT PT INSTRUCTIONS HERE ISAAC</p>
 	<p></p>PUT PT INSTRUCTIONS HERE</p>
 	</div>
 	
-	<div id="collaborate" class="extra"><h3>Collaborate</h3>
+	<div id="collaborate" style="display:none;" class="extra"><h3>Collaborate</h3>
 	<p>We welcome your input.</p>
 	<ol>
 		<li>Please contact us (rbadgett@kumc.edu) for suggestions/ideas.</li>
@@ -213,7 +212,7 @@ $("body").on("click", function(){
 	</ol>
 	</div>
 
-	<div id="about" class="extra"><h3>Last update</h3> <div>
+	<div id="about" style="display:none;" class="extra"><h3>Last update</h3> <div>
 	<p>Last updates: style 02/02/2010; content 1/1/2005.</p>
 	<div style="font-weight:bold">References</div>
 	<ol>
