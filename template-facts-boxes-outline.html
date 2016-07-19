@@ -99,16 +99,14 @@ function showtip(tiptext, event, width){
 	$("#tip").css('width', width);
     $("#tip").html(tiptext) //("<div style = 'background-color:white;opacity:1;border-style: solid; border-width: medium;padding:10px'>" + tiptext + '</div>');
 	$("#tip").css('display','block');
-	//alert( pos_left)
-	//alert($(window).width())
-	var pos_left = event.pageX //trigger.position().left;
-        if ((pos_left + $("#tip").width()) > $(window).width()){
-            pos_left = $(window).width() - $("#tip").width() - 10;
+	var pos_left = event.pageX  - $("#tip").width()/2 //trigger.position().left;
+        if ((pos_left + $("#tip").width()) > $(window).width() - 50){
+            pos_left = $(window).width() - $("#tip").width() - $("#tip").width()/2;
 		}
         if (pos_left < 0){
             pos_left = 10;
 		}
-	var pos_top =  event.pageY; //trigger.position().top;
+	var pos_top =  event.pageY - 20; //trigger.position().top;
         if ((pos_top + $("#tip").height()) > $(window).height()){
             pos_top = pos_top + 20 - $("#tip").height();
 		}
@@ -117,7 +115,7 @@ function showtip(tiptext, event, width){
 //event handlers
 $('a.has_tip').mouseenter(function(event){
 		var tiptext = $(this).attr('tip')
-		tiptext = $("#USPSTF").html()
+		tiptext = $('#' + tiptext).html()
 		width = "200px"
 		showtip(tiptext, event, width);
 	});
@@ -179,15 +177,16 @@ $("body").on("click", function(){
 	<table><tr><td>What do expert organizations recommend?</td>
 	<td><ul>
 	<li>The United States Preventive Services Task Force <a href="#" class="has_tip" tip="USPSTF">(show)</a>
-	<div id="USPSTF" class="is_tip">&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(<a href="http://pubmed.gov/18838716" title="Click to display source at PubMed in a new window" target="_blank" class="citation">USPSTF, 2008</a>)</div></li>
-	<li>The American Cancer Society<sup class="citation">(<a href="http://pubmed.gov/18322143" title="Click to display source at PubMed in a new window" target="_blank" class="citation">ACS, 2008</a>)</sup></li>
+	<div id="USPSTF" class="is_tip">&quot;The USPSTF recommends screening every 2 years for women aged 50 to 74. The decision to start screening for women aged 40 to 49 should be an individual one.&quot;(<a href="http://pubmed.gov/18838716" title="Click to display source at PubMed in a new window" target="_blank" class="citation">USPSTF, 2008</a>&nbsp;<img src="https://raw.githubusercontent.com/openRules/openRules.github.io/master/images/External.svg.png" width="15" alt="opens in new window"/>)</div></li>
+	<li>The American Cancer Society <a href="#" class="has_tip" tip="ACS">(show)</a>
+	<div id="ACS" class="is_tip">&quot;The ACS recommends that women with an average risk of breast cancer should undergo regular screening mammography starting at age 45 years.&quot;(<a href="http://pubmed.gov/26501536" title="Click to display source at PubMed in a new window" target="_blank" class="citation">ACS, 2015</a>&nbsp;<img src="https://raw.githubusercontent.com/openRules/openRules.github.io/master/images/External.svg.png" width="15" alt="opens in new window"/>)</div></li>
 	</ul></td></tr></table>
-	<div id="version" style="position: absolute; bottom:5px;color:gray; font-size:smaller;width:100%;text-align:center">Last updates: style 02/02/2010; content 1/1/2005. Click 'About' for recent changes.</div>
     </div>
 	
 	
 	<!-- -Start of footer -->
     <div id="footer" style="clear:both">
+	<div id="version" style="color:gray; font-size:smaller;width:100%;text-align:center">Last updates: style 02/02/2010; content 1/1/2005. Click 'About' for recent changes.</div>
 	<a name="footer_menu"></a>
 	<table width="100%" align="center" id="footer_menu">
 	<tr>
