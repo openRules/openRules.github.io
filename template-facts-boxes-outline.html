@@ -89,7 +89,7 @@ div.extra
 }
 </style>
 <script>
-function toggleit (itemno){
+function toggle_extra (itemno){
 	$(".extra").css("display", "none")
 	document.getElementById(itemno).style.display = (document.getElementById(itemno).style.display == "none" ) ? "" : "none";
 }
@@ -133,42 +133,42 @@ $("body").on("click", function(){
 
 <body ng-app="">
 
-    <div id="wrapper">
-        <h1><a href="http://OpenRules.github.io">OpenRules.github.io</a></h1>
-		<div id="input">
+<div id="wrapper">
+	<h1><a href="http://OpenRules.github.io">OpenRules.github.io</a></h1>
+	<div id="input">
         <h2>Screening/treating  for disease x with y</h2>
-<form name="myForm">
- <fieldset style="border: 3px solid #6DC6E7; background-color: #FFFFFF;">
- <legend>Enter values:</legend>
-<div>
-<label for="free">Free text example:</label>
-<input name="free" id="free" ng-model="free" required>
-<span ng-show="myForm.free.$untouched && myForm.free.$invalid" class="required">*</span>
-</div>
-<div>&nbsp;</div>
-<div>
-<label for="race">Enter race/ethnicity:</label>
-<select ng-model="race" name="race" id="race" required>
-      <option value="anglo"></option>
-      <option value="anglo">Anglo</option>
-      <option value="aa">African-American</option>
-</select>
-<span ng-show="myForm.race.$untouched && myForm.race.$invalid"  class="required">*</span>
-</div>
-<div>&nbsp;</div>
-<div style="text-align:left">Gender: <input type="radio" name="gender" ng-model="gender" value="female" required>Female <input type="radio" name="gender" ng-model="gender" value="male">Male 
-</div>
-<div>&nbsp;</div>
-<div style="text-align:left"><label for="age">Your age:</label>
-<input type="number" name="age" id="age" ng-model="age" min="35" max="99" required title="This decision aid applies to women older than 35 years">
-<span ng-show="myForm.age.$invalid"  class="required">*</span>
-</div>
-<div>&nbsp;</div>
-<div><span  class="required">*</span> Required values</div>
-<div style="text-align:center"><button id="submitbutton" type="submit">Submit</button></div>
-</fieldset>
-</form>
-</div>
+		<form name="myForm">
+		 <fieldset style="border: 3px solid #6DC6E7; background-color: #FFFFFF;">
+		 <legend>Enter values:</legend>
+		<div>
+		<label for="free">Free text example:</label>
+		<input name="free" id="free" ng-model="free" required>
+		<span ng-show="myForm.free.$untouched && myForm.free.$invalid" class="required">*</span>
+		</div>
+		<div>&nbsp;</div>
+		<div>
+		<label for="race">Enter race/ethnicity:</label>
+		<select ng-model="race" name="race" id="race" required>
+			  <option value="anglo"></option>
+			  <option value="anglo">Anglo</option>
+			  <option value="aa">African-American</option>
+		</select>
+		<span ng-show="myForm.race.$untouched && myForm.race.$invalid"  class="required">*</span>
+		</div>
+		<div>&nbsp;</div>
+		<div style="text-align:left">Gender: <input type="radio" name="gender" ng-model="gender" value="female" required>Female <input type="radio" name="gender" ng-model="gender" value="male">Male 
+		</div>
+		<div>&nbsp;</div>
+		<div style="text-align:left"><label for="age">Your age:</label>
+		<input type="number" name="age" id="age" ng-model="age" min="35" max="99" required title="This decision aid applies to women older than 35 years">
+		<span ng-show="myForm.age.$invalid"  class="required">*</span>
+		</div>
+		<div>&nbsp;</div>
+		<div><span  class="required">*</span> Required values</div>
+		<div style="text-align:center"><button id="submitbutton" type="submit">Submit</button></div>
+		</fieldset>
+		</form>
+	</div>
 
 	<!-- Start of results -->
     <div id="results">
@@ -190,19 +190,32 @@ $("body").on("click", function(){
 	<a name="footer_menu"></a>
 	<table width="100%" align="center" id="footer_menu">
 	<tr>
-	<td class="listitem"><a onclick="toggleit('patients');window.scrollBy(0, 200);return false" href="#">For patients:<br/>what's next</a></td>
-	<td class="listitem"><a onclick="toggleit('about');window.scrollBy(0, 200);return false" href="#">About</a></td>
-	<td class="listitem"><a onclick="toggleit('collaborate');window.scrollBy(0,200);return false" href="#">Collaborate</a></td>
+	<td class="listitem"><a onclick="toggle_extra('patients');window.scrollBy(0, 200);return false" href="#">For patients:<br/>what's next</a></td>
+	<td class="listitem"><a onclick="toggle_extra('about');window.scrollBy(0, 200);return false" href="#">About</a></td>
+	<td class="listitem"><a onclick="toggle_extra('collaborate');window.scrollBy(0,200);return false" href="#">Collaborate</a></td>
 	<td class="listitem"><a href="https://github.com/openRules/facts-boxes/wiki/Contact-us" target="_blank">Contact us</a>&nbsp;<img src="https://raw.githubusercontent.com/openRules/openRules.github.io/master/images/External.svg.png" width="15" alt="opens in new window"/></td>
 	</tr>
 	</table>
 	
 	<div id="patients" style="display:none;" class="extra"><h3>Next steps</h3>
-	<p>PUT PT INSTRUCTIONS HERE ISAAC</p>
-	<p>PUT PT INSTRUCTIONS HERE</p>
+		<div>Contact your health care provider if</div>
+		<ul>
+			<li>You are missing information that is needed to complete the form.</li>
+			<li>You have questions about your making your decision.</li>
+		</ul>
 	</div>
 	
-	<div id="collaborate" style="display:none;" class="extra"><h3>Collaborate</h3>
+	<div id="about" style="display:none;" class="extra"><h3>Last update</h3> <div>
+		<p>Last updates: style 02/02/2010; content 1/1/2005. Last revisions to content include...</p>
+		<div style="font-weight:bold">References</div>
+		<ol>
+			<li></li>
+			<li></li>
+		</ol>
+		</div>
+    </div>
+
+	  <div id="collaborate" style="display:none;" class="extra"><h3>Collaborate</h3>
 	<p>We welcome your input.</p>
 	<ol>
 		<li>Please contact us (rbadgett@kumc.edu) for suggestions/ideas.</li>
@@ -211,17 +224,8 @@ $("body").on("click", function(){
 	</ol>
 	</div>
 
-	<div id="about" style="display:none;" class="extra"><h3>Last update</h3> <div>
-	<p>Last updates: style 02/02/2010; content 1/1/2005. Last revisions to content include...</p>
-	<div style="font-weight:bold">References</div>
-	<ol>
-		<li></li>
-		<li></li>
-	</ol>
-	</div>
-
-      </div>
-      </div>
+	</div><!-- end of footer -->
+</div><!-- end of wrapoer -->
 <div id="tip" style="display:none;background-color:white;opacity:1;border-color:#0022B4;border-style: solid; border-width: medium;padding:10px;position:absolute"></div>
 </body>
 </html>
